@@ -46,6 +46,23 @@ void print(string field[][11], bool gemer)
         cout << endl;
     }
 }
+bool checkInput(string num)
+{   
+    if (num.length() > 5)
+        return false;
+    for (int i = 0; i < num.length(); i++)
+    {   
+        if (num[i] < '0' || num[i]>'9')
+            return false;
+        else
+            return true;
+    }
+}
+
+void ship(string field[][11])
+{
+
+}
 int main()
 {
     cout << "\t\tSea battle\n\n";
