@@ -48,7 +48,7 @@ void print(string field[][11], bool gemer)// печать массива
         cout << endl;
     }
 }
-bool checkInput(string num, int position[],int size)  // Проверка ввода символов
+bool checkInput(string num, int position[])  // Проверка ввода символов
 {
     int a = 0,c=0;
     int b = 0;
@@ -81,33 +81,64 @@ bool checkInput(string num, int position[],int size)  // Проверка вво
     }
     position[0] = a;
     position[1] = c;
-    if (var > 0||a>10||c>10)
+    if (var > 0||a>10||c>10||a<1||c<1)
         return false;
     else
         return true;
 }
-
-void ship(string field[][11])
+void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)
 {
-
+    char R = 'O';
+    if (len == 0)
+        field[a][b] = R;
+    else
+    {
+        if (hov)
+        {
+            for (int i = b; i < b+len; i++)
+            {
+                field[a][i] = R;
+            }
+        }
+        else
+        {
+            for (int i = a; i < a + len; i++)
+            {
+                field[i][b] = R;
+            }
+        }
+    }
+}
+void ship(string field[][11],int position[],bool gemer)
+{   
+    print(field, gemer);
+    string num;
+    int a=0, b=0, c=0, d=0, len=0;
+    bool hov=true;
+    cout << "Enter the coordinates ship (1,2 or 1.2) :";
+    cin >> num;
+    if (checkInput(num, position))
+    {
+        a = position[0];
+        b = position[1];
+        shipInitial(field,a, b, c, d, len, hov);
+    }
 }
 int main()
 {
-    cout << "\t\tSea battle\n\n";
-    string fieldОne[11][11];
-    string fieldTwo[11][11];
-    int position[2];
+    const int S = 2;                    // размер массива позиции
+    string fieldОne[11][11];            // массив 1го поля
+    string fieldTwo[11][11];            // массив 2го поля
+    int position[S];                    // позиции
     initial(fieldОne);
     initial(fieldTwo);
     print(fieldОne,true);
     cout << endl;
     print(fieldTwo,false);
-    string num;
-    cin >> num;
-    cout << checkInput(num, position,2) << endl;
-    for (int i = 0; i < 2; i++)
-    {
-        cout << position[i] << " ";
-    }
+    cout << endl;
+    ship(fieldОne, position,true);
+    ship(fieldTwo, position,false);
+    
+    print(fieldОne, true);
 }
 
