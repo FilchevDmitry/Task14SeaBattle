@@ -115,14 +115,53 @@ void ship(string field[][11],int position[],bool gemer)
     string num;
     int a=0, b=0, c=0, d=0, len=0;
     bool hov=true;
-    cout << "Enter the coordinates ship (1,2 or 1.2) :";
-    cin >> num;
-    if (checkInput(num, position))
-    {
+    bool ok = true;
+    for (int i = 0; i < 4; i++)
+    {   
+        cout << "Enter the coordinates ship (1,2 or 1.2) :";
+        cin >> num;
+        while (!checkInput(num, position))
+        {
+            cout << "wrong"<<endl;
+            cout << "Enter the coordinates ship (1,2 or 1.2) :";
+            cin >> num;
+            checkInput(num, position);
+        }
         a = position[0];
         b = position[1];
-        shipInitial(field,a, b, c, d, len, hov);
+        shipInitial(field, a, b, c, d, len, hov);
+        print(field, gemer);
     }
+    for (int i = 0; i < 3; i++)
+    {   
+        len = 2;
+        cout << "Enter the coordinates ship (1,2 or 1.2) :";
+        cin >> num;
+        while (!checkInput(num, position))
+        {
+            cout << "wrong" << endl;
+            cout << "Enter the coordinates ship (1,2 or 1.2) :";
+            cin >> num;
+            checkInput(num, position);
+        }
+        a = position[0];
+        b = position[1];
+        cout << "Enter the coordinates 2 ship (1,2 or 1.2) :";
+        cin >> num;
+        while (!checkInput(num, position))
+        {
+            cout << "wrong" << endl;
+            cout << "Enter the coordinates ship (1,2 or 1.2) :";
+            cin >> num;
+            checkInput(num, position);
+        }
+        c = position[0];
+        d = position[1];
+        (a == c) ? hov = true : hov = true;
+        shipInitial(field, a, b, c, d, len, hov);
+        print(field, gemer);
+    }
+
 }
 int main()
 {
@@ -137,7 +176,7 @@ int main()
     print(fieldTwo,false);
     cout << endl;
     ship(fieldОne, position,true);
-    ship(fieldTwo, position,false);
+   
     
     print(fieldОne, true);
 }
