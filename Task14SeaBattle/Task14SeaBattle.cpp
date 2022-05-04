@@ -102,7 +102,6 @@ void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov
            field[i][b] = R;
        }
     }
-    
 }
 void Coordinates(int position[], int deck)  // проверка введеных координат
 {
@@ -117,8 +116,8 @@ void Coordinates(int position[], int deck)  // проверка введеных
         checkInput(num, position);
     }
 }
-void location(string field[][11], int a, int b, int c, int d)
-{
+bool location(string field[][11], int a, int b, int c, int d)
+{   
 
 }
 void shipGo(int len, int cycle, int position[], string field[][11], int deck, bool gemer) // инициализация корабля на поле
