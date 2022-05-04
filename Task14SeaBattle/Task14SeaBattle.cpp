@@ -69,7 +69,6 @@ bool checkInput(string num, int position[])  // Проверка ввода си
             a += (num[i] - '0')+(i*9);
         }
     }
-   
     for (int i = b+1; i < num.length(); i++)
     {
         if (num[i] < '0' || num[i]>'9')
@@ -86,82 +85,82 @@ bool checkInput(string num, int position[])  // Проверка ввода си
     else
         return true;
 }
-void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)
+void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)  // инициализация объекта
 {
     char R = 'O';
-    if (len == 0)
-        field[a][b] = R;
+    if (hov)
+    {
+      for (int i = b; i < b+len; i++)
+        {
+          field[a][i] = R;
+        }
+    }
     else
     {
-        if (hov)
+       for (int i = a; i < a + len; i++)
+       {
+           field[i][b] = R;
+       }
+    }
+    
+}
+void Coordinates(int position[], int deck)  // проверка введеных координат
+{
+    string num;
+    cout << "Enter the coordinates of the " <<deck<<" deck ship(1,2 or 1.2) :";
+    cin >> num;
+    while (!checkInput(num, position))
+    {   
+        cout << "wrong" << endl;
+        cout << "Enter the coordinates ship (1,2 or 1.2) :";
+        cin >> num;
+        checkInput(num, position);
+    }
+}
+void location(string field[][11], int a, int b, int c, int d)
+{
+
+}
+void shipGo(int len, int cycle, int position[], string field[][11], int deck, bool gemer) // инициализация корабля на поле
+{   
+    int a = 0, b = 0, c = 0, d = 0;
+    bool hov = true;
+    if (cycle == 4)
+    {
+        for (int i = 0; i < cycle; i++)
         {
-            for (int i = b; i < b+len; i++)
-            {
-                field[a][i] = R;
-            }
+            Coordinates(position, 1);
+            a = position[0];
+            b = position[1];
+            shipInitial(field, a, b, c, d, len, hov);
+            print(field, gemer);
         }
-        else
+    }
+    else
+    {
+        for (int i = 0; i < cycle; i++)
         {
-            for (int i = a; i < a + len; i++)
-            {
-                field[i][b] = R;
-            }
+            Coordinates(position, deck);
+            a = position[0];
+            b = position[1];
+            Coordinates(position, deck);
+            c = position[0];
+            d = position[1];
+            (a == c) ? hov = true : hov = false;
+            shipInitial(field, a, b, c, d, len, hov);
+            print(field, gemer);
         }
     }
 }
-void ship(string field[][11],int position[],bool gemer)
+void ship(string field[][11],int position[],bool gemer) // инициализация кораблей
 {   
-    print(field, gemer);
-    string num;
-    int a=0, b=0, c=0, d=0, len=0;
-    bool hov=true;
-    bool ok = true;
-    for (int i = 0; i < 4; i++)
-    {   
-        cout << "Enter the coordinates ship (1,2 or 1.2) :";
-        cin >> num;
-        while (!checkInput(num, position))
-        {
-            cout << "wrong"<<endl;
-            cout << "Enter the coordinates ship (1,2 or 1.2) :";
-            cin >> num;
-            checkInput(num, position);
-        }
-        a = position[0];
-        b = position[1];
-        shipInitial(field, a, b, c, d, len, hov);
-        print(field, gemer);
+    int len = 1, cycle = 4;
+    for (int  i = 0; i < 4; i++)
+    {
+        shipGo(len, cycle, position, field, len, gemer);
+        len++;
+        cycle--;
     }
-    for (int i = 0; i < 3; i++)
-    {   
-        len = 2;
-        cout << "Enter the coordinates ship (1,2 or 1.2) :";
-        cin >> num;
-        while (!checkInput(num, position))
-        {
-            cout << "wrong" << endl;
-            cout << "Enter the coordinates ship (1,2 or 1.2) :";
-            cin >> num;
-            checkInput(num, position);
-        }
-        a = position[0];
-        b = position[1];
-        cout << "Enter the coordinates 2 ship (1,2 or 1.2) :";
-        cin >> num;
-        while (!checkInput(num, position))
-        {
-            cout << "wrong" << endl;
-            cout << "Enter the coordinates ship (1,2 or 1.2) :";
-            cin >> num;
-            checkInput(num, position);
-        }
-        c = position[0];
-        d = position[1];
-        (a == c) ? hov = true : hov = true;
-        shipInitial(field, a, b, c, d, len, hov);
-        print(field, gemer);
-    }
-
 }
 int main()
 {
@@ -171,13 +170,8 @@ int main()
     int position[S];                    // позиции
     initial(fieldОne);
     initial(fieldTwo);
-    print(fieldОne,true);
-    cout << endl;
-    print(fieldTwo,false);
-    cout << endl;
     ship(fieldОne, position,true);
-   
-    
+    ship(fieldTwo, position,false);
     print(fieldОne, true);
 }
 
