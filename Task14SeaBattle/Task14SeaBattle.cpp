@@ -88,23 +88,34 @@ bool checkInput(string num, int position[])  // Проверка ввода си
 void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)  // инициализация объекта
 {   
     int pos[2];
-    char R = 'O';
     string O = "O";
     bool pop = true;
+    int temp = 0;
     while (pop)
     {
         if (hov)
         {
             for (int i = b; i < b + len; i++)
             {
-                field[a][i] == O;
+                if (field[a][i] == O)
+                    temp++;
             }
         }
         else
         {
             for (int i = a; i < a + len; i++)
             {
-                field[i][b] = O;
+                if (field[i][b] == O)
+                    temp++;
+            }
+        }
+        if (temp == 0 && a==c || temp==0 && b==d)
+            pop = false;
+        else
+        {
+            while (pop)
+            {
+
             }
         }
     }
@@ -113,14 +124,14 @@ void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov
     {
       for (int i = b; i < b+len; i++)
         {
-          field[a][i] = R;
+          field[a][i] = O;
         }
     }
     else
     {
        for (int i = a; i < a + len; i++)
        {
-           field[i][b] = R;
+           field[i][b] = O;
        }
     }
 }
