@@ -86,8 +86,29 @@ bool checkInput(string num, int position[])  // Проверка ввода си
         return true;
 }
 void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)  // инициализация объекта
-{
+{   
+    int pos[2];
     char R = 'O';
+    string O = "O";
+    bool pop = true;
+    while (pop)
+    {
+        if (hov)
+        {
+            for (int i = b; i < b + len; i++)
+            {
+                field[a][i] == O;
+            }
+        }
+        else
+        {
+            for (int i = a; i < a + len; i++)
+            {
+                field[i][b] = O;
+            }
+        }
+    }
+        
     if (hov)
     {
       for (int i = b; i < b+len; i++)
@@ -102,7 +123,6 @@ void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov
            field[i][b] = R;
        }
     }
-    
 }
 void Coordinates(int position[], int deck)  // проверка введеных координат
 {
@@ -116,10 +136,6 @@ void Coordinates(int position[], int deck)  // проверка введеных
         cin >> num;
         checkInput(num, position);
     }
-}
-void location(string field[][11], int a, int b, int c, int d)
-{
-
 }
 void shipGo(int len, int cycle, int position[], string field[][11], int deck, bool gemer) // инициализация корабля на поле
 {   
