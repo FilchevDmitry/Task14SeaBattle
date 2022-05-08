@@ -86,20 +86,21 @@ bool checkInput(string num, int position[])  // Проверка ввода си
         return true;
 }
 void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)  // инициализация объекта
-{
-    char R = 'O';
+{   
+    string O = "O";
+
     if (hov)
     {
       for (int i = b; i < b+len; i++)
         {
-          field[a][i] = R;
+          field[a][i] = O;
         }
     }
     else
     {
        for (int i = a; i < a + len; i++)
        {
-           field[i][b] = R;
+           field[i][b] = O;
        }
     }
 }
@@ -116,10 +117,7 @@ void Coordinates(int position[], int deck)  // проверка введеных
         checkInput(num, position);
     }
 }
-bool location(string field[][11], int a, int b, int c, int d)
-{   
 
-}
 void shipGo(int len, int cycle, int position[], string field[][11], int deck, bool gemer) // инициализация корабля на поле
 {   
     int a = 0, b = 0, c = 0, d = 0;
@@ -146,6 +144,13 @@ void shipGo(int len, int cycle, int position[], string field[][11], int deck, bo
             c = position[0];
             d = position[1];
             (a == c) ? hov = true : hov = false;
+            while (a != c && b != d)
+            {   
+                cout << "It is impossible to put the ship diagonally!!!\n";
+                Coordinates(position, deck);
+                c = position[0];
+                d = position[1];
+            }
             shipInitial(field, a, b, c, d, len, hov);
             print(field, gemer);
         }
