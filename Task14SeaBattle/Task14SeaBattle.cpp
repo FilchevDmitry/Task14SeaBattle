@@ -89,14 +89,14 @@ void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov
 {   
     string O = "O";
 
-    if (hov)
+    if (hov) 
     {
       for (int i = b; i < b+len; i++)
         {
           field[a][i] = O;
         }
     }
-    else
+    else 
     {
        for (int i = a; i < a + len; i++)
        {
@@ -117,18 +117,51 @@ void Coordinates(int position[], int deck)  // проверка введеных
         checkInput(num, position);
     }
 }
-
+bool verify(string field[][11], int a, int b, int len, bool hov)   //проверка на наличие коробля 
+{
+    string O = "O";
+    int temp = 0;
+    int horizontal = 0, vertical = 0;
+    if (hov)
+    {
+        for (int i = b; i < b + len; i++)
+        {
+            if(field[a][i] == O)
+            temp++;
+        }
+    }
+    else
+    {
+        for (int i = a; i < a + len; i++)
+        {
+            if(field[i][b] == O)
+            temp++;
+        }
+    }
+    if (temp == 0)
+        return true;
+    else
+        return false;
+}
 void shipGo(int len, int cycle, int position[], string field[][11], int deck, bool gemer) // инициализация корабля на поле
 {   
     int a = 0, b = 0, c = 0, d = 0;
     bool hov = true;
+    bool pop = true;
     if (cycle == 4)
     {
         for (int i = 0; i < cycle; i++)
-        {
+        {   
             Coordinates(position, 1);
             a = position[0];
             b = position[1];
+            while (!verify(field, a, b, len, hov))
+            {
+                cout << "There is a ship at these coordinates!!!\n";
+                Coordinates(position, 1);
+                a = position[0];
+                b = position[1];
+            }
             shipInitial(field, a, b, c, d, len, hov);
             print(field, gemer);
         }
@@ -150,6 +183,24 @@ void shipGo(int len, int cycle, int position[], string field[][11], int deck, bo
                 Coordinates(position, deck);
                 c = position[0];
                 d = position[1];
+            }
+            while (!verify(field, a, b, len, hov))
+            {   
+                cout << "There is a ship at these coordinates!!!\n";
+                Coordinates(position, deck);
+                a = position[0];
+                b = position[1];
+                Coordinates(position, deck);
+                c = position[0];
+                d = position[1];
+                (a == c) ? hov = true : hov = false;
+                while (a != c && b != d)
+                {
+                    cout << "It is impossible to put the ship diagonally!!!\n";
+                    Coordinates(position, deck);
+                    c = position[0];
+                    d = position[1];
+                }
             }
             shipInitial(field, a, b, c, d, len, hov);
             print(field, gemer);
