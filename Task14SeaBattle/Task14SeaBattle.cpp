@@ -85,20 +85,20 @@ bool checkInput(string num, int position[])  // Проверка ввода си
     else
         return true;
 }
-void shipInitial(string field[][11],int a,int b, int c, int d, int len, bool hov)  // инициализация объекта
+void shipInitial(string field[][11],int a,int b, int len, bool hov)  // инициализация объекта
 {   
     string O = "O";
 
     if (hov) 
     {
-      for (int i = b; i < b+len; i++)
+      for (int i = b; i < b+len; i++)// горизонталь
         {
           field[a][i] = O;
         }
     }
     else 
     {
-       for (int i = a; i < a + len; i++)
+       for (int i = a; i < a + len; i++) // вертикаль
        {
            field[i][b] = O;
        }
@@ -162,7 +162,7 @@ void shipGo(int len, int cycle, int position[], string field[][11], int deck, bo
                 a = position[0];
                 b = position[1];
             }
-            shipInitial(field, a, b, c, d, len, hov);
+            shipInitial(field, a, b, len, hov);
             print(field, gemer);
         }
     }
@@ -180,10 +180,15 @@ void shipGo(int len, int cycle, int position[], string field[][11], int deck, bo
             while (a != c && b != d)
             {   
                 cout << "It is impossible to put the ship diagonally!!!\n";
+                cout << "Enter the 2nd coordinates of the ship\n";
                 Coordinates(position, deck);
                 c = position[0];
                 d = position[1];
             }
+            if ((a > c) && !hov)
+                swap(a, c);
+            else if(b>d && hov)
+                swap(b, d);
             while (!verify(field, a, b, len, hov))
             {   
                 cout << "There is a ship at these coordinates!!!\n";
@@ -197,12 +202,17 @@ void shipGo(int len, int cycle, int position[], string field[][11], int deck, bo
                 while (a != c && b != d)
                 {
                     cout << "It is impossible to put the ship diagonally!!!\n";
+                    cout << "Enter the 2nd coordinates of the ship\n";
                     Coordinates(position, deck);
                     c = position[0];
                     d = position[1];
                 }
+                if ((a > c) && !hov)
+                    swap(a, c);
+                else if (b > d && hov)
+                    swap(b, d);
             }
-            shipInitial(field, a, b, c, d, len, hov);
+            shipInitial(field, a, b, len, hov);
             print(field, gemer);
         }
     }
