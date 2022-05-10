@@ -251,7 +251,7 @@ bool game(int position[], string field[][11],string fieldGame[][11],string play[
         cin >> num;
         while (!checkInput(num, position))
         {
-            cout << "wrong" << endl;
+            cout << "Wrong!!!!!" << endl;
             cout << "\nPlayer " << gam << " take a shot(1, 2)\n";
             cin >> num;
             checkInput(num, position);
@@ -260,13 +260,13 @@ bool game(int position[], string field[][11],string fieldGame[][11],string play[
         b = position[1];
         if (!verify(fieldGame, a, b, 1, true))
         {
-            cout << "\nHit the ship\n";
+            cout << "\n\tHit the ship!\n";
             play[a][b] = "X";
             fieldGame[a][b] = "X";
         }
         else
         {
-            cout << "\nmissed\n";
+            cout << "\n\t!!!MISSED!!!\n";
             play[a][b] = " ";
             shot = false;
         } 
@@ -296,13 +296,13 @@ int main()
     {   
         if (!game(position, fieldОne, fieldTwo, Two, true))
         {   
-            cout << "\nWin 1 player!!!!!\n";
+            cout << "\n\t!!!!!Win 1 player!!!!!\n";
             print(fieldTwo, false);
             break;
         }
         if (!game(position, fieldTwo, fieldОne, One, false))
         {
-            cout << "\nWin 2 player!!!!!\n";
+            cout << "\n\t!!!!!Win 2 player!!!!!\n";
             print(fieldОne, true);
             break;
         }
