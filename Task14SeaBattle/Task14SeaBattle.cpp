@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <iomanip>
-#include <vector>
 #include<string>
 using namespace std;
 void initial(string field[][11]) // инициализация
@@ -33,20 +32,28 @@ void initial(string field[][11]) // инициализация
         }
     }
 }
-void print(string field[][11], bool gemer)// печать массива
+bool print(string field[][11], bool gemer)// печать массива
 {   
+    int var = 0;
+    string sim = "X";
     if (gemer)
-        cout << "\t\t1 player\n\n";
+        cout << "\n\t1 player\n\n";
     else 
-        cout << "\t\t2 player\n\n";
+        cout << "\n\t2 player\n\n";
     for (int i = 0; i < 11; i++)
     {
         for (int j = 0; j < 11; j++)
         {
             cout << setw(2) << field[i][j] << " ";
+            if (field[i][j] == sim)
+                var++;
         }
         cout << endl;
     }
+    if (var == 20)
+        return false;
+    else
+        return true;
 }
 bool checkInput(string num, int position[])  // Проверка ввода символов
 {
@@ -88,7 +95,6 @@ bool checkInput(string num, int position[])  // Проверка ввода си
 void shipInitial(string field[][11],int a,int b, int len, bool hov)  // инициализация объекта
 {   
     string O = "O";
-
     if (hov) 
     {
       for (int i = b; i < b+len; i++)// горизонталь
@@ -112,7 +118,7 @@ void Coordinates(int position[], int deck)  // проверка введеных
     while (!checkInput(num, position))
     {   
         cout << "wrong" << endl;
-        cout << "Enter the coordinates ship (1,2 or 1.2) :";
+        cout << "\nEnter the coordinates ship (1,2 or 1.2) :";
         cin >> num;
         checkInput(num, position);
     }
@@ -121,7 +127,6 @@ bool verify(string field[][11], int a, int b, int len, bool hov)   //прове�
 {
     string O = "O";
     int temp = 0;
-    int horizontal = 0, vertical = 0;
     if (hov)
     {
         for (int i = b; i < b + len; i++)
@@ -227,16 +232,80 @@ void ship(string field[][11],int position[],bool gemer) // инициализа�
         cycle--;
     }
 }
+bool game(int position[], string field[][11],string fieldGame[][11],string play[][11], bool gamer)
+{
+    string num;
+    int a = 0, b = 0;
+    bool shot = true;
+    bool end = false;
+    int gam = 0;
+    while (shot)
+    {   
+        if (!print(play, gamer))
+        {
+            end = true;
+            break;
+        }
+        (gamer == true) ? gam = 1 : gam = 2;
+        cout << "\nPlayer " << gam << " take a shot(1, 2)\n";
+        cin >> num;
+        while (!checkInput(num, position))
+        {
+            cout << "wrong" << endl;
+            cout << "\nPlayer " << gam << " take a shot(1, 2)\n";
+            cin >> num;
+            checkInput(num, position);
+        }
+        a = position[0];
+        b = position[1];
+        if (!verify(fieldGame, a, b, 1, true))
+        {
+            cout << "\nHit the ship\n";
+            play[a][b] = "X";
+            fieldGame[a][b] = "X";
+        }
+        else
+        {
+            cout << "\nmissed\n";
+            play[a][b] = " ";
+            shot = false;
+        } 
+    }
+    if (end)
+        return false;
+    else
+        return true;
+}
 int main()
 {
     const int S = 2;                    // размер массива позиции
     string fieldОne[11][11];            // массив 1го поля
     string fieldTwo[11][11];            // массив 2го поля
+    string One[11][11];
+    string Two[11][11];
     int position[S];                    // позиции
     initial(fieldОne);
     initial(fieldTwo);
-    ship(fieldОne, position,true);
-    ship(fieldTwo, position,false);
+    initial(One);
+    initial(Two);
     print(fieldОne, true);
+    ship(fieldОne, position,true);
+    print(fieldTwo, false);
+    ship(fieldTwo, position,false);
+    while (true)
+    {   
+        if (!game(position, fieldОne, fieldTwo, Two, true))
+        {   
+            cout << "\nWin 1 player!!!!!\n";
+            print(fieldTwo, false);
+            break;
+        }
+        if (!game(position, fieldTwo, fieldОne, One, false))
+        {
+            cout << "\nWin 2 player!!!!!\n";
+            print(fieldОne, true);
+            break;
+        }
+    }
 }
 
